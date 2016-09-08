@@ -11,13 +11,13 @@ use AppBundle\Form\ProfileType;
 class UserController extends Controller
 {
     /**
-     * @Route("/profile", name="profile")
+     * @Route("/profile/{id}", name="profile")
      */
-    public function profileAction()
+    public function profileAction($id)
     {
         $user = $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->find(7);
+            ->find($id);
 
         return $this->render('profile/profile.html.twig',array('user' => $user));
     }
