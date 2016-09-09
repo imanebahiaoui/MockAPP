@@ -56,4 +56,31 @@ class LoginControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Invalid credentials.")')
                                             ->count());
     }
+
+
+    public function testUserCouldNotBeFound()
+    {
+
+        $client  = self::createClient();
+        $crawler = $client->request('GET', '/login');
+        $form    = $crawler->selectButton('Login')
+                           ->form();
+
+        $form['login_form[_username]'] = 'UserNotFound';
+        $form['login_form[_password]'] = 'password';
+
+        $client->submit($form);
+
+        while ($client->getResponse()
+                      ->isRedirect()) {
+            $crawler = $client->followRedirect();
+        }
+
+        $this->assertTrue($client->getResponse()
+                                 ->isSuccessful(), sprintf('The %s', $client->getResponse()
+                                                                            ->getContent()));
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Username could not be found.")')
+                                            ->count());
+    }
 }
