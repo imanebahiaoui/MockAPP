@@ -1,0 +1,45 @@
+<?php
+
+namespace AppBundle\Service;
+
+
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+
+class FileUploaderServiceTest extends KernelTestCase
+{
+/** @var   ContainerInterface*/
+    protected $container;
+
+    protected function setUp()
+    {
+        self::bootKernel();
+        $this->container = self::$kernel->getContainer();
+
+    }
+
+    protected function tearDown()
+    {
+        unlink(__DIR__ . '/test.jpg');
+    }
+    
+
+    public function testUpload()
+    {
+        $file = array(
+            'test' => array(
+                'name' => 'test.jpeg',
+                'type' => 'image/jpeg',
+                'size' => 362,
+                'tmp_name' => __DIR__ . '/test.jpeg',
+                'error' => 0
+            )
+        );
+
+        $myService =$this->container->get('app.avatar_uploader');
+        $filename= $myService->upload($file);
+
+        $this->assertTrue(is_dir(__DIR__ . '/test.jpg'));
+    }
+}
