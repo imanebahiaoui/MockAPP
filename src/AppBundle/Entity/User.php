@@ -32,6 +32,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string")
      * @Assert\Length(min=6, max=255)
+     * @Assert\NotBlank()
      */
     private $password = '';
 
