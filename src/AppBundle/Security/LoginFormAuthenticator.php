@@ -44,9 +44,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         UserPasswordEncoder $passwordEncoder
     ) {
 
-        $this->formFactory = $formFactory;
-        $this->em = $em;
-        $this->router = $router;
+        $this->formFactory     = $formFactory;
+        $this->em              = $em;
+        $this->router          = $router;
         $this->passwordEncoder = $passwordEncoder;
     }
 
@@ -91,17 +91,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $isLoginSubmit = $request->getPathInfo() == '/login' && $request->isMethod('POST');
-        if (!$isLoginSubmit) {
+        if ( ! $isLoginSubmit) {
             return;
         }
         $form = $this->formFactory->create(LoginForm::class);
         $form->handleRequest($request);
         $data = $form->getData();
         $request->getSession()
-            ->set(
-                Security::LAST_USERNAME,
-                $data['_username']
-            );
+                ->set(Security::LAST_USERNAME, $data['_username']);
 
         return $data;
     }
@@ -115,7 +112,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * You may throw an AuthenticationException if you wish. If you return
      * null, then a UsernameNotFoundException is thrown for you.
      *
-     * @param mixed $credentials
+     * @param mixed                 $credentials
      * @param UserProviderInterface $userProvider
      *
      * @throws AuthenticationException
@@ -127,7 +124,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $username = $credentials['_username'];
 
         return $this->em->getRepository('AppBundle:User')
-            ->findOneBy(['login' => $username]);
+                        ->findOneBy(['login' => $username]);
     }
 
 
@@ -140,7 +137,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      *
      * The *credentials* are the return value from getCredentials()
      *
-     * @param mixed $credentials
+     * @param mixed         $credentials
      * @param UserInterface $user
      *
      * @return bool
