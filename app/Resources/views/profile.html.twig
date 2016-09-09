@@ -1,38 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-
     <title>{% block title %}Welcome!{% endblock %}</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    {% block stylesheets %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-
-
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <style>
+        .alert {
+            top: 0;
+            right: 0;
+            left: 0;
+            margin-top: 20px;
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
-
 <body>
+{% block flash_messages %}
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">MockAPP</a>
+                </div>
+                <ul class="nav navbar-nav pull-right">
+                        {#<li><a href="{{ path('showArticle') }}">Dashboard</a></li>#}
+                        <li><a href="{{ path('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
 
-<div class="container">
-
-    <div class="row" >
-
-        {% block body %}{% endblock %}
-
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert"><span
+                                        aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                            {{ message | raw }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
-
-
-</div> <!-- /container -->
-{% block javascripts %}{% endblock %}
-
+{% endblock %}
+{% block body %}{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+{% endblock %}
 </body>
 </html>
