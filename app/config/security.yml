@@ -34,5 +34,10 @@ security:
             guard:
                 authenticators:
                     - app.security.login_form_authenticator
+
     encoders:
-      AppBundle\Entity\User: bcrypt
+        AppBundle\Entity\User: bcrypt
+
+    access_control:
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }
