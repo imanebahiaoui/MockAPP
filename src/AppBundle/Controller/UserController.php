@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,16 +12,26 @@ use AppBundle\Form\ProfileType;
 class UserController extends Controller
 {
     /**
+     * @Route("/profile/")
      * @Route("/profile/{id}", name="profile")
      */
-    public function profileAction($id)
+    public function profileAction($id = null)
     {
-        $user = $this->getDoctrine()
-            ->getRepository('AppBundle:User')
-            ->find($id);
+        if(null === $id) {
+            $user = $this->getUser();
+        } else {
+            $user = $this->getDoctrine()
+                ->getRepository('AppBundle:User')
+                ->find($id);
+
+            if(!$user) {
+                throw $this->createNotFoundException('The User does not exist');
+            }
+        }
 
         return $this->render('profile/profile.html.twig',array('user' => $user));
     }
+
     /**
      * @Route("/editUser/{id}", name="editUser")
      */
