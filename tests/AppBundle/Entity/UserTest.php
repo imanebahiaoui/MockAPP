@@ -64,4 +64,18 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($errors));
     }
 
+
+    public function testPasswordLengthShouldBeGreaterThanMinLength()
+    {
+        $this->user->setPassword('***');
+        $errors = $this->validator->validateProperty($this->user, self::ATTR_PASSWORD);
+        $this->assertTrue(strlen($this->user->getPassword()) < self::PASSWORD_MIN_LENGTH);
+        $this->assertTrue(count($errors) > 0);
+
+        $this->user->setPassword('******');
+        $errors = $this->validator->validateProperty($this->user, self::ATTR_PASSWORD);
+        $this->assertTrue(strlen($this->user->getPassword()) >= self::PASSWORD_MIN_LENGTH);
+        $this->assertEquals(0, count($errors));
+    }
+
 }
