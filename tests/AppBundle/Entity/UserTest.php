@@ -39,4 +39,18 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($errors));
     }
 
+
+    public function testLoginLengthShouldBeGreaterThanMinLength()
+    {
+        $this->user->setLogin('yo');
+        $errors = $this->validator->validateProperty($this->user, self::ATTR_LOGIN);
+        $this->assertTrue(strlen($this->user->getUsername()) < self::LOGIN_MIN_LENGTH);
+        $this->assertTrue(count($errors) > 0);
+
+        $this->user->setLogin('user');
+        $errors = $this->validator->validateProperty($this->user, self::ATTR_LOGIN);
+        $this->assertTrue(strlen($this->user->getUsername()) >= self::LOGIN_MIN_LENGTH);
+        $this->assertEquals(0, count($errors));
+    }
+
 }
