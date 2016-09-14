@@ -23,7 +23,7 @@ class FileUploaderServiceTest extends KernelTestCase
     {
         unlink(__DIR__ . '/test.jpg');
     }
-    
+
 
     public function testUpload()
     {

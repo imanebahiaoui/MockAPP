@@ -12,7 +12,7 @@ use AppBundle\Form\ProfileType;
 class UserController extends Controller
 {
     /**
-     * @Route("/profile/")
+     * @Route("/profile")
      * @Route("/profile/{id}", name="profile")
      */
     public function profileAction($id = null)
