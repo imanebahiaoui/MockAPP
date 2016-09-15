@@ -24,8 +24,8 @@ class UserType extends AbstractType
                     ]
                 )
                 ->add('firstname', TextType::class)
-                ->add('lastname', TextType::class)
-                ->add('avatar', FileType::class);
+                ->add('lastname', TextType::class);
+//                ->add('avatar', FileType::class);
     }
 
 
