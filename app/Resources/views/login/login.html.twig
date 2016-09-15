@@ -15,6 +15,9 @@
         {{ form_start(form) }}
         {{ form_row(form._username) }}
         {{ form_row(form._password) }}
+            <div style="margin-left: 30%" >
+                Not  registered ? <a href="{{ path('user_register') }}">Create an account</a>
+            </div>
         <button type="submit" class="btn btn-success">Login <span class="fa fa-lock"></span></button>
         {{ form_end(form) }}
     </div>
